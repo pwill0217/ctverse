@@ -40,6 +40,123 @@ const mockProducts: Product[] = [
     price: 16.06,
     aliExpressUrl: 'https://www.aliexpress.us/item/3256808014773986.html?pdp_npi=4%40dis%21USD%21US%20%2451.60%21US%20%2416.72%21%21%21372.59%21120.74%21%402101c71a17439783646912876ecfa7%2112000046412799421%21sh%21US%210%21X&spm=a2g0o.store_pc_allItems_or_groupList.new_all_items_2007567562990.1005008201088738&gatewayAdapt=glo2usa'
   },
+  {
+    id: '4',
+    name: 'CT Toys Amazing Yamaguchi Spider-Man 2.0 ',
+    image: 'https://imgs.search.brave.com/pQie4T6bNNwdkoWX5sipMSqzuKmmtkggJhggJBlEB_I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NjFRRkZxdWp0T0wu/anBn',
+    releaseYear: 2025,
+    rating: 4.9,
+    price: 16.70,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256808040974481.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%221003%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2151.56%2116.70%21%21%21377.75%21122.37%21%402101c80017443213727355204e8414%2112000045949435800%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008227289233&gatewayAdapt=glo2usa'
+  },
+  {
+    id: '5',
+    name: 'CT Toys Wolverine (Tiger Stripe)',
+    image: 'https://imgs.search.brave.com/OtEa6-TI9586RG-4zHwGGNbz8eFNgXQKCiFn6bUKMYQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/Xzk5NjgyNi1NTE04/MTczOTc2MjU0N18w/MTIwMjUtRS53ZWJw',
+    releaseYear: 2025,
+    rating: 4.8,
+    price: 15.44,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807907572652.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%221871%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2148.75%2115.44%21%21%21357.15%21113.10%21%402101c80017443213727355204e8414%2112000046412771995%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008093887404&gatewayAdapt=glo2usa'
+  },
+    {
+    id: '6',
+    name: 'CT Toys Wolverine (Brown Suit)',
+    image: 'https://imgs.search.brave.com/oG2qJEEo43sM7rOYhfNCKLAAxUhA7qEt27HmHErLS58/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL1N-c0FB/T1N3a345bX5oMEkv/cy1sNTAwLmpwZw',
+    releaseYear: 2025,
+    rating: 4.8,
+    price: 15.44,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807907572652.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%221871%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2148.75%2115.44%21%21%21357.15%21113.10%21%402101c80017443213727355204e8414%2112000046412771995%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008093887404&gatewayAdapt=glo2usa'
+  },
+  {
+    id: '7',
+    name: 'CT Toys Agent Venom Amazing Yamaguchi',
+    image: 'https://imgs.search.brave.com/HShTDi8ZXZrh5JIM1n-7otKYKhP-0S_DuaK-RfL_qSk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pNS53/YWxtYXJ0aW1hZ2Vz/LmNvbS9zZW8vQ1Qt/VG95cy1LYWl5YW5n/ZG8tUmV2b2x0ZWNo/LUFtYXppbmctWWFt/YWd1Y2hpLUFnZW50/LVZlbm9tLUFjdGlv/bi1GaWd1cmUtNmlu/LU5FV18zYzFhMGQx/OS03OTU1LTQxMTct/OGNkZi1kNDBiZTFm/MmNiOGUuN2M5Mzk4/ZWU1MDA4M2Q0YjVi/MjRiMTgxMzYxMTBl/MzEucG5nP29kbkhl/aWdodD02NDAmb2Ru/V2lkdGg9NjQwJm9k/bkJnPUZGRkZGRg',
+    releaseYear: 2024,
+    rating: 4.8,
+    price: 22.14,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807908011146.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%22358%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2128.64%2122.14%21%21%21209.83%21162.21%21%402101c80017443213727355204e8414%2112000045950040650%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008094325898&gatewayAdapt=glo2usa#nav-review'
+  },
+  {
+    id: '8',
+    name: 'CT Toys Web Man',
+    image: 'https://i.ebayimg.com/images/g/qRoAAOSw-ItnJJE0/s-l1200.jpg',
+    releaseYear: 2024,
+    rating: 4.6,
+    price: 16.92,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807920367992.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%2283%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2123.42%2116.92%21%21%21171.58%21123.96%21%402101c80017443213727355204e8414%2112000045947226814%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008106682744&gatewayAdapt=glo2usa'
+  },
+  {
+    id: '9',
+    name: 'CT Symbiote Spider-man',
+    image: 'https://imgs.search.brave.com/ax6u24FWpAeehVhZvmsFZGR0bEXD7R9NFz6YHIrMRsU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4x/MS5iaWdjb21tZXJj/ZS5jb20vcy04OWZm/ZC9pbWFnZXMvc3Rl/bmNpbC83Mjh4NzI4/L3Byb2R1Y3RzLzk5/ODY4LzQxODU3NS80/NTMwOTU2NDcxNjg2/X2VjNTBmODhmZTE0/YWE4ZTdkNWQ4OTJk/YzZlMzA0MDU4X18z/MDIzNi4xNjY1OTgy/NDQ2LmpwZz9jPTI',
+    releaseYear: 2024,
+    rating: 4.6,
+    price: 15.65,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807976552170.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%22498%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2122.15%2115.65%21%21%21162.26%21114.64%21%402101c80017443213727355204e8414%2112000045949961527%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008162866922&gatewayAdapt=glo2usa'
+  },
+   {
+    id: '10',
+    name: 'CT Spider-man(Miles Morales)',
+    image: 'https://imgs.search.brave.com/_bL6gQpIEUOtY9ozSB8SoZbaJkzmiR04zeJLQyl7ANo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL3M5d0FB/T1N3dWM5bXNIU0wv/cy1sNTAwLmpwZw',
+    releaseYear: 2024,
+    rating: 4.6,
+    price: 15.93,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807976627063.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%22156%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2122.43%2115.93%21%21%21164.34%21116.72%21%402101c80017443213727355204e8414%2112000045949989442%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008162941815&gatewayAdapt=glo2usa'
+  },
+   {
+    id: '11',
+    name: 'CT Spider-man 2099(Across The Spiderverse)',
+    image: 'https://imgs.search.brave.com/jgWqCm2EGDq7HJNV8h4b6HLJ8YijO5ekYiV7FEI0e-Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWVkaWEuYW1wbGll/bmNlLm5ldC9zL2hv/dHRvcGljLzMwODI3/NDM4X2hpPyRwcm9k/dWN0TWFpbkRlc2t0/b3AkJmZtdD1hdXRv',
+    releaseYear: 2024,
+    rating: 4.7,
+    price: 17.85,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807981979859.html?pdp_npi=4%40dis%21USD%21US%20%2424.35%21US%20%2417.85%21%21%21178.37%21130.75%21%4021030ea417443248211983035ea22a%2112000045947631904%21sh%21US%210%21X&spm=a2g0o.store_pc_allItems_or_groupList.new_all_items_2007567562990.1005008168294611&gatewayAdapt=glo2usa'
+  },
+  {
+    id: '11',
+    name: 'CT Spider-man Miles Morales (Across The Spiderverse)',
+    image: 'https://imgs.search.brave.com/AtUjlE-6kRWEfR7qv22p-DI-uuSENApQ0BD80hWOX0E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kM250/OWVtOWwxdXJ6OC5j/bG91ZGZyb250Lm5l/dC9tZWRpYS9jYXRh/bG9nL3Byb2R1Y3Qv/Y2FjaGUvMy9pbWFn/ZS8xMTAweC8wNDBl/YzA5YjFlMzVkZjEz/OTQzMzg4N2E5N2Rh/YTY2Zi80LzUvNDU3/MzEwMjYzOTg5OS1z/LmguZmlndWFydHMt/c3BpZGVyLW1hbi1f/bWlsZXMtbW9yYWxl/c18tXzE1Xy5qcGc',
+    releaseYear: 2024,
+    rating: 4.8,
+    price: 8.70,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256808297690410.html?pdp_npi=4%40dis%21USD%21US%20%2432.60%21US%20%248.17%21%21%21238.84%2159.86%21%4021030ea417443248211983035ea22a%2112000046413984419%21sh%21US%210%21X&spm=a2g0o.store_pc_allItems_or_groupList.new_all_items_2007567562990.1005008484005162&gatewayAdapt=glo2usa'
+  },
+  {
+    id: '12',
+    name: 'CT Toys Symbiote Spider-man (Tobey Maguire)',
+    image: 'https://imgs.search.brave.com/9bs1ySqZZ6JGbuxMp_FaZac-IPcJyZI-g79Gwpdqxb0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/bmV3LWxvb2stYXQt/Y3QtdG95cy1zcGlk/ZXItbWFuLTMtc3lt/YmlvdGUtc3BpZGV5/LXYwLWt4eDdoOHV4/ZmZ2YzEucG5nP2F1/dG89d2VicCZzPThh/NTM0MjNiOGJmZTA1/MTgzNzU0ODk0NTJh/NmYzMWFiNTg2YmRm/OTg',
+    releaseYear: 2024,
+    rating: 4.5,
+    price: 17.33,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807981879137.html?pdp_npi=4%40dis%21USD%21US%20%2423.83%21US%20%2417.33%21%21%21174.60%21126.98%21%4021030ea417443248211983035ea22a%2112000045950268849%21sh%21US%210%21X&spm=a2g0o.store_pc_allItems_or_groupList.new_all_items_2007567562990.1005008168193889&gatewayAdapt=glo2usa'
+  },
+  {
+    id: '13',
+    name: 'CT Toys The Amazing Spider-Man Andrew Garfield (No Way Home)',
+    image: 'https://ae-pic-a1.aliexpress-media.com/kf/S50eeb1085eac4d91bc91b749738d9416W.png_220x220.png_.avif',
+    releaseYear: 2024,
+    rating: 4.8,
+    price: 15.77,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807927773881.html?pdp_npi=4%40dis%21USD%21US%20%2432.83%21US%20%248.28%21%21%21240.48%2160.60%21%402101ef5e17443265196664022e491e%2112000045917576622%21sh%21US%210%21X&spm=a2g0o.store_pc_allItems_or_groupList.new_all_items_2007567562990.1005008114088633&gatewayAdapt=glo2usa'
+  },
+  {
+    id: '14',
+    name: 'CT Toys Spider-man (Tobey)',
+    image: 'https://i.ebayimg.com/images/g/OpYAAOSwXEVnJIEL/s-l1200.png',
+    releaseYear: 2024,
+    rating: 3.8,
+    price: 9.68,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256807127828489.html?spm=a2g0o.productlist.main.19.54705540CV5qHx&algo_pvid=08a40333-3c36-4f24-88b0-90c99e9ea999&algo_exp_id=08a40333-3c36-4f24-88b0-90c99e9ea999-9&pdp_ext_f=%7B%22order%22%3A%22531%22%2C%22eval%22%3A%221%22%7D&pdp_npi=4%40dis%21USD%2147.19%219.07%21%21%21345.71%2166.46%21%402101ea7117443253956107380ec5ff%2112000040225646012%21sea%21US%210%21ABX&curPageLogUid=qBSVqdz7LLQ5&utparam-url=scene%3Asearch%7Cquery_from%3A'
+  },
+  {
+    id: '15',
+    name: 'CT Toys Ultimate Gohan',
+    image: 'https://ae-pic-a1.aliexpress-media.com/kf/S43445c27ee464d66afdad2fad00496d4F.jpg_220x220q75.jpg_.avif',
+    releaseYear: 2024,
+    rating: 4.9,
+    price: 24.33,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256808563003085.html?pdp_npi=4%40dis%21USD%21US%20%2429.83%21US%20%2424.33%21%21%21218.50%21178.21%21%402103201917443262250666840e7432%2112000046509208036%21sh%21US%210%21X&spm=a2g0o.store_pc_allItems_or_groupList.new_all_items_2007567562990.1005008749317837&gatewayAdapt=glo2usa'
+  },
 ];
 
 const RatingStars: React.FC<{ rating: number }> = ({ rating }) => {
@@ -147,7 +264,7 @@ const Catalog: React.FC = () => {
                   className="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-red-700 transition-colors duration-300"
                 >
                   <ShoppingCart className="w-5 h-5" />
-                  <span>Buy Now</span>
+                  <span>Buy on AliExpress</span>
                 </a>
               </div>
             </div>

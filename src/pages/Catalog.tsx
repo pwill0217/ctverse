@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Star, StarHalf, Search, Filter, ShoppingCart } from 'lucide-react';
+import { Star, StarHalf, Search, Filter, ShoppingCart, Plus, Check } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import { useCollection } from '../hooks/useCollection';
 
 interface Product {
   id: string;
@@ -30,7 +32,6 @@ const mockProducts: Product[] = [
     price: 16.06,
     aliExpressUrl: 'https://www.aliexpress.us/item/3256808021472813.html?pdp_npi=4%40dis%21USD%21US%20%2450.13%21US%20%2416.06%21%21%21361.93%21115.94%21%402101c71a17439783646912876ecfa7%2112000046609828247%21sh%21US%210%21X&spm=a2g0o.store_pc_allItems_or_groupList.new_all_items_2007567562990.1005008207787565&gatewayAdapt=glo2usa'
   },
-  // Add more mock products as needed
   {
     id: '3',
     name: 'CT Toys Spiderman (Ben Reilly)',
@@ -58,7 +59,7 @@ const mockProducts: Product[] = [
     price: 15.44,
     aliExpressUrl: 'https://www.aliexpress.us/item/3256807907572652.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%221871%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2148.75%2115.44%21%21%21357.15%21113.10%21%402101c80017443213727355204e8414%2112000046412771995%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008093887404&gatewayAdapt=glo2usa'
   },
-    {
+  {
     id: '6',
     name: 'CT Toys Wolverine (Brown Suit)',
     image: 'https://imgs.search.brave.com/oG2qJEEo43sM7rOYhfNCKLAAxUhA7qEt27HmHErLS58/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL1N-c0FB/T1N3a345bX5oMEkv/cy1sNTAwLmpwZw',
@@ -94,7 +95,7 @@ const mockProducts: Product[] = [
     price: 15.65,
     aliExpressUrl: 'https://www.aliexpress.us/item/3256807976552170.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%22498%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2122.15%2115.65%21%21%21162.26%21114.64%21%402101c80017443213727355204e8414%2112000045949961527%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008162866922&gatewayAdapt=glo2usa'
   },
-   {
+  {
     id: '10',
     name: 'CT Spider-man(Miles Morales)',
     image: 'https://imgs.search.brave.com/_bL6gQpIEUOtY9ozSB8SoZbaJkzmiR04zeJLQyl7ANo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL3M5d0FB/T1N3dWM5bXNIU0wv/cy1sNTAwLmpwZw',
@@ -103,7 +104,7 @@ const mockProducts: Product[] = [
     price: 15.93,
     aliExpressUrl: 'https://www.aliexpress.us/item/3256807976627063.html?gps-id=pcStoreJustForYou&scm=1007.23125.137358.0&scm_id=1007.23125.137358.0&scm-url=1007.23125.137358.0&pvid=a2262d12-b744-4728-bc90-52961cef1dd9&_t=gps-id%3ApcStoreJustForYou%2Cscm-url%3A1007.23125.137358.0%2Cpvid%3Aa2262d12-b744-4728-bc90-52961cef1dd9%2Ctpp_buckets%3A668%232846%238111%231996&pdp_ext_f=%7B%22order%22%3A%22156%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213125%22%7D&pdp_npi=4%40dis%21USD%2122.43%2115.93%21%21%21164.34%21116.72%21%402101c80017443213727355204e8414%2112000045949989442%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartJustForYou_2005299976221.1005008162941815&gatewayAdapt=glo2usa'
   },
-   {
+  {
     id: '11',
     name: 'CT Spider-man 2099(Across The Spiderverse)',
     image: 'https://imgs.search.brave.com/jgWqCm2EGDq7HJNV8h4b6HLJ8YijO5ekYiV7FEI0e-Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWVkaWEuYW1wbGll/bmNlLm5ldC9zL2hv/dHRvcGljLzMwODI3/NDM4X2hpPyRwcm9k/dWN0TWFpbkRlc2t0/b3AkJmZtdD1hdXRv',
@@ -180,6 +181,26 @@ const RatingStars: React.FC<{ rating: number }> = ({ rating }) => {
 const Catalog: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'newest' | 'rating' | 'price'>('newest');
+  const { user } = useAuth();
+  const { addToCollection, removeFromCollection, isInCollection } = useCollection();
+
+  const handleCollectionToggle = async (productId: string) => {
+    if (!user) {
+      alert('Please log in to add items to your collection');
+      return;
+    }
+
+    try {
+      if (isInCollection(productId)) {
+        await removeFromCollection(productId);
+      } else {
+        await addToCollection(productId);
+      }
+    } catch (error) {
+      console.error('Error toggling collection:', error);
+      alert('There was an error updating your collection');
+    }
+  };
 
   const filteredProducts = mockProducts
     .filter(product => 
@@ -257,15 +278,37 @@ const Catalog: React.FC = () => {
                   <span className="text-lg font-bold text-red-600">${product.price}</span>
                 </div>
                 <RatingStars rating={product.rating} />
-                <a
-                  href={product.aliExpressUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-red-700 transition-colors duration-300"
-                >
-                  <ShoppingCart className="w-5 h-5" />
-                  <span>Buy on AliExpress</span>
-                </a>
+                <div className="mt-4 space-y-2">
+                  <a
+                    href={product.aliExpressUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-red-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-red-700 transition-colors duration-300"
+                  >
+                    <ShoppingCart className="w-5 h-5" />
+                    <span>Buy on AliExpress</span>
+                  </a>
+                  <button
+                    onClick={() => handleCollectionToggle(product.id)}
+                    className={`w-full py-2 px-4 rounded-lg flex items-center justify-center space-x-2 transition-colors duration-300 ${
+                      isInCollection(product.id)
+                        ? 'bg-green-600 text-white hover:bg-green-700'
+                        : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                    }`}
+                  >
+                    {isInCollection(product.id) ? (
+                      <>
+                        <Check className="w-5 h-5" />
+                        <span>In Collection</span>
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-5 h-5" />
+                        <span>Add to Collection</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           ))}

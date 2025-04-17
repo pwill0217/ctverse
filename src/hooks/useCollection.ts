@@ -1,28 +1,37 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc
+} from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from './useAuth';
 
-export const useCollection = () => {
-  const { user } = useAuth();
-  const [userCollection, setUserCollection] = useState<string[]>([]);
+export const useCollection = <T extends { id: string }>() => {
+  const { user, loading: authLoading } = useAuth(); // 🧠 include loading from useAuth
+  const [userCollection, setUserCollection] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCollection = async () => {
-      if (!user) {
-        setUserCollection([]);
-        setLoading(false);
-        return;
-      }
+    if (authLoading) return; // 🧠 Wait for Firebase to finish loading
+    if (!user) {
+      setUserCollection([]);
+      setLoading(false);
+      return;
+    }
 
+    const fetchCollection = async () => {
       try {
-        const q = query(
-          collection(db, 'collections'),
-          where('userId', '==', user.uid)
-        );
+        const q = collection(db, 'users', user.uid, 'collection');
         const querySnapshot = await getDocs(q);
-        const items = querySnapshot.docs.map(doc => doc.data().productId);
+        const items = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as T[];
         setUserCollection(items);
       } catch (error) {
         console.error('Error fetching collection:', error);
@@ -32,44 +41,64 @@ export const useCollection = () => {
     };
 
     fetchCollection();
-  }, [user]);
+  }, [user, authLoading]);
 
-  const addToCollection = async (productId: string) => {
-    if (!user) {
-      throw new Error('User must be logged in');
-    }
+  const addToCollection = async (itemData: Omit<T, 'id'>) => {
+    if (!user) throw new Error('User must be logged in');
 
     try {
-      await addDoc(collection(db, 'collections'), {
-        userId: user.uid,
-        productId,
-        addedAt: new Date()
-      });
-      setUserCollection(prev => [...prev, productId]);
+      const docRef = await addDoc(collection(db, 'users', user.uid, 'collection'), itemData);
+      setUserCollection(prev => [...prev, { id: docRef.id, ...itemData } as T]);
     } catch (error) {
       console.error('Error adding to collection:', error);
       throw error;
     }
   };
 
-  const removeFromCollection = async (productId: string) => {
-    if (!user) {
-      throw new Error('User must be logged in');
-    }
+  const removeFromCollection = async (itemId: string) => {
+    if (!user) throw new Error('User must be logged in');
 
     try {
-      const q = query(
-        collection(db, 'collections'),
-        where('userId', '==', user.uid),
-        where('productId', '==', productId)
-      );
-      const querySnapshot = await getDocs(q);
-      const docRef = doc(db, 'collections', querySnapshot.docs[0].id);
+      const docRef = doc(db, 'users', user.uid, 'collection', itemId);
       await deleteDoc(docRef);
-      setUserCollection(prev => prev.filter(id => id !== productId));
+      setUserCollection(prev => prev.filter(item => item.id !== itemId));
     } catch (error) {
       console.error('Error removing from collection:', error);
       throw error;
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!user) return;
+    try {
+      await deleteDoc(doc(db, 'users', user.uid, 'collection', id));
+      setUserCollection(prev => prev.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
+
+  const handleToggleFavorite = async (id: string) => {
+    if (!user) throw new Error('User must be logged in');
+
+    try {
+      const itemRef = doc(db, 'users', user.uid, 'collection', id);
+      const itemSnap = await getDoc(itemRef);
+
+      if (itemSnap.exists()) {
+        const currentFavorite = itemSnap.data().favorite;
+        await updateDoc(itemRef, { favorite: !currentFavorite });
+
+        setUserCollection(prev =>
+          prev.map(item =>
+            item.id === id ? { ...item, favorite: !currentFavorite } : item
+          )
+        );
+
+        console.log(`Toggled favorite for item with id: ${id}`);
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
     }
   };
 
@@ -78,6 +107,8 @@ export const useCollection = () => {
     loading,
     addToCollection,
     removeFromCollection,
-    isInCollection: (productId: string) => userCollection.includes(productId)
+    isInCollection: (id: string) => userCollection.some(item => item.id === id),
+    handleDelete,
+    handleToggleFavorite
   };
 };

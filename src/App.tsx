@@ -11,7 +11,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'catalog' | 'collection'>('home');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { user } = useAuth();
-  
+
   const backgroundImages = [
     "https://i.ebayimg.com/images/g/7GgAAOSwhY1n5p3i/s-l225.jpg",
     "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQS8MlW3fWetJLtg_6Nn1ZDl31hX0hEJzs6MMI2LtII0D5831hWkw9Edmnvb2d1HPwRCW-IQoALDPiBDDfpDtAv0y2aDPrkYyaJ6HxB_h6sQRo3adoWs3hYqb3U&usqp=CAc",

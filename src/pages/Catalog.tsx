@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Star, StarHalf, Search, Filter, ShoppingCart, Plus, Check } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useCollection } from '../hooks/useCollection';
+import { doc, setDoc, deleteDoc,  } from "firebase/firestore";
+import { db } from "../firebase";
 
 interface Product {
   id: string;
@@ -182,23 +184,45 @@ const Catalog: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'newest' | 'rating' | 'price'>('newest');
   const { user } = useAuth();
-  const { addToCollection, removeFromCollection, isInCollection } = useCollection();
+  const { isInCollection } = useCollection();
 
   const handleCollectionToggle = async (productId: string) => {
     if (!user) {
-      alert('Please log in to add items to your collection');
+      alert("Please log in to add items to your collection");
       return;
     }
 
     try {
+      const collectionDocRef = doc(db, `users/${user.uid}/collection`, productId);
+
       if (isInCollection(productId)) {
-        await removeFromCollection(productId);
+        // Remove the figure from the collection
+        await deleteDoc(collectionDocRef);
+        alert("Removed from your collection");
       } else {
-        await addToCollection(productId);
+        // Add the figure to the collection
+        const product = mockProducts.find((p) => p.id === productId);
+        if (!product) {
+          alert("Product not found");
+          return;
+        }
+
+        await setDoc(collectionDocRef, {
+          id: product.id,
+          name: product.name,
+          image: product.image,
+          releaseYear: product.releaseYear,
+          rating: product.rating,
+          price: product.price,
+          aliExpressUrl: product.aliExpressUrl,
+          addedAt: new Date().toISOString(), // Optional: Track when the item was added
+        });
+
+        alert("Added to your collection");
       }
     } catch (error) {
-      console.error('Error toggling collection:', error);
-      alert('There was an error updating your collection');
+      console.error("Error toggling collection:", error);
+      alert("There was an error updating your collection");
     }
   };
 

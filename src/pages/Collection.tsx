@@ -1,65 +1,63 @@
 import React, { useState } from 'react';
 import { Trophy, Search, Filter, Plus, Trash2, Edit, Star } from 'lucide-react';
-
-interface CollectionItem {
-  id: string;
-  name: string;
-  image: string;
-  purchaseDate: string;
-  purchasePrice: number;
-  condition: 'new' | 'used' | 'damaged';
-  notes: string;
-  favorite: boolean;
-}
-
-const mockCollection: CollectionItem[] = [
-  {
-    id: '1',
-    name: 'CT Toys Hellverine',
-    image: 'https://i.ebayimg.com/images/g/7GgAAOSwhY1n5p3i/s-l225.jpg',
-    purchaseDate: '2024-01-15',
-    purchasePrice: 17.89,
-    condition: 'new',
-    notes: 'First CT Toys purchase',
-    favorite: true,
-  },
-  // Add more mock items as needed
-];
+import { useCollection } from '../hooks/useCollection';
 
 const Collection: React.FC = () => {
-  const [collection, setCollection] = useState<CollectionItem[]>(mockCollection);
+  const {
+    userCollection,
+    loading,
+    handleDelete,
+    handleToggleFavorite
+  } = useCollection<{
+    id: string;
+    name: string;
+    purchaseDate?: string;
+    purchasePrice?: number;
+    favorite?: boolean;
+    image: string;
+    condition: string;
+    notes?: string;
+  }>();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'name' | 'price'>('date');
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const filteredCollection = collection
-    .filter(item => 
+  // Placeholder for Add Modal
+  const AddModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-bold mb-4">Add New Item</h2>
+        <button
+          onClick={onClose}
+          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+
+  const filteredCollection = userCollection
+    .filter((item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .sort((a, b) => {
       switch (sortBy) {
         case 'date':
-          return new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime();
+          return new Date(b.purchaseDate || 0).getTime() - new Date(a.purchaseDate || 0).getTime();
         case 'name':
-          return a.name.localeCompare(b.name);
+          return (a.name || '').localeCompare(b.name || '');
         case 'price':
-          return b.purchasePrice - a.purchasePrice;
+          return (b.purchasePrice || 0) - (a.purchasePrice || 0);
         default:
           return 0;
       }
     });
 
-  const handleDelete = (id: string) => {
-    setCollection(prev => prev.filter(item => item.id !== id));
-  };
-
-  const handleToggleFavorite = (id: string) => {
-    setCollection(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, favorite: !item.favorite } : item
-      )
-    );
-  };
+  if (loading) {
+    return <div className="text-center text-gray-500">Loading your collection...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -82,7 +80,8 @@ const Collection: React.FC = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-800">My Collection</h1>
             <p className="text-gray-600">
-              {collection.length} items · Total Value: ${collection.reduce((sum, item) => sum + item.purchasePrice, 0).toFixed(2)}
+              {userCollection.length} items · Total Value: $
+              {userCollection.reduce((sum, item) => sum + (item.purchasePrice || 0), 0).toFixed(2)}
             </p>
           </div>
           <div className="flex space-x-4 w-full md:w-auto">
@@ -140,17 +139,21 @@ const Collection: React.FC = () => {
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.name}</h3>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600">Added: {new Date(item.purchaseDate).toLocaleDateString()}</span>
-                  <span className="text-lg font-bold text-red-600">${item.purchasePrice}</span>
+                  <span className="text-sm text-gray-600">Added: {new Date(item.purchaseDate || '').toLocaleDateString()}</span>
+                  <span className="text-lg font-bold text-red-600">${item.purchasePrice || 0}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className={`text-sm px-2 py-1 rounded ${
-                    item.condition === 'new' ? 'bg-green-100 text-green-800' :
-                    item.condition === 'used' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
-                    {item.condition.charAt(0).toUpperCase() + item.condition.slice(1)}
-                  </span>
+                <span className={`text-sm px-2 py-1 rounded ${
+  item.condition === 'new' ? 'bg-green-100 text-green-800' :
+  item.condition === 'used' ? 'bg-yellow-100 text-yellow-800' :
+  item.condition === 'damaged' ? 'bg-red-100 text-red-800' :
+  'bg-gray-100 text-gray-600'
+}`}>
+  {item.condition
+    ? item.condition.charAt(0).toUpperCase() + item.condition.slice(1)
+    : 'Unknown'}
+</span>
+
                   <div className="flex space-x-2">
                     <button
                       onClick={() => {/* Handle edit */}}
@@ -177,9 +180,6 @@ const Collection: React.FC = () => {
         {/* Empty State */}
         {filteredCollection.length === 0 && (
           <div className="text-center py-12">
-            <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-              <Trophy className="w-10 h-10 text-gray-400" />
-            </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">No items in your collection</h3>
             <p className="text-gray-600 mb-4">Start adding items to your collection to track them here.</p>
             <button
@@ -191,41 +191,8 @@ const Collection: React.FC = () => {
             </button>
           </div>
         )}
+        {showAddModal && <AddModal onClose={() => setShowAddModal(false)} />}
       </div>
-
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Add New Item</h2>
-            {/* Add form fields for adding a new item */}
-            <form>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Name</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500"
-                />
-              </div>
-              {/* Add more fields as needed */}
-              <div className="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                >
-                  Add Item
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

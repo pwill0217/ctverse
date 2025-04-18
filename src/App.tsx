@@ -214,7 +214,12 @@ function App() {
       </footer>
 
       {/* Auth Modal */}
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        catalog={[]} 
+        onAdd={(item) => console.log('Item added:', item)} 
+      />
     </div>
   );
 }

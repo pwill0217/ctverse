@@ -1,42 +1,74 @@
 import React, { useState } from 'react';
 import { Trophy, Search, Filter, Plus, Trash2, Edit, Star } from 'lucide-react';
 import { useCollection } from '../hooks/useCollection';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';  // Ensure correct import for Firestore
+import { getAuth } from 'firebase/auth';
+
+interface CollectionItem {
+  id: string;
+  name: string;
+  purchaseDate?: string;
+  purchasePrice?: number; // Allow decimals
+  favorite?: boolean;
+  image: string;
+  condition: string;
+  notes?: string;
+}
 
 const Collection: React.FC = () => {
   const {
     userCollection,
     loading,
     handleDelete,
-    handleToggleFavorite
-  } = useCollection<{
-    id: string;
-    name: string;
-    purchaseDate?: string;
-    purchasePrice?: number;
-    favorite?: boolean;
-    image: string;
-    condition: string;
-    notes?: string;
-  }>();
+    handleToggleFavorite,
+  } = useCollection<CollectionItem>();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'name' | 'price'>('date');
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false); // For add modal
+  const [newPrice, setNewPrice] = useState<number | string>('');  // New price state
+  const [purchaseDate, setPurchaseDate] = useState<string>('');  // New purchase date state
+  const [addingItemId, setAddingItemId] = useState<string | null>(null); // ID of the item being added
 
-  // Placeholder for Add Modal
-  const AddModal: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Add New Item</h2>
-        <button
-          onClick={onClose}
-          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  );
+  // Handle adding item to the collection
+  const handleAddItem = async (itemId: string) => {
+    const price = parseFloat(newPrice.toString());
+    if (isNaN(price) || !purchaseDate) {
+      alert('Please enter a valid price and purchase date');
+      return;
+    }
+
+    try {
+      const auth = getAuth();
+      const userId = auth.currentUser?.uid; // Get authenticated user's UID
+      if (!userId) {
+        alert('User is not authenticated');
+        return;
+      }
+
+      // Find the product details based on itemId
+      const item = userCollection.find((item) => item.id === itemId);
+      if (!item) {
+        alert('Item not found!');
+        return;
+      }
+
+      // Firestore path: /users/{userId}/collection/{docId}
+      const itemRef = doc(db, 'users', userId, 'collection', itemId); // Path matches Firestore rules
+      await setDoc(itemRef, {
+        ...item,
+        purchasePrice: price,
+        purchaseDate,
+      });
+
+      alert(`Added ${item.name} to your collection!`);
+      setShowAddModal(false); // Close the modal after adding
+    } catch (error) {
+      console.error('Error adding item:', error);
+      alert('Failed to add the item. Please try again.');
+    }
+  };
 
   const filteredCollection = userCollection
     .filter((item) =>
@@ -139,24 +171,34 @@ const Collection: React.FC = () => {
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.name}</h3>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600">Added: {new Date(item.purchaseDate || '').toLocaleDateString()}</span>
-                  <span className="text-lg font-bold text-red-600">${item.purchasePrice || 0}</span>
+                  {/* Conditionally Display Purchase Date and Price */}
+                  {item.purchaseDate ? (
+                    <span className="text-sm text-gray-600">Purchased on: {new Date(item.purchaseDate).toLocaleDateString()}</span>
+                  ) : (
+                    <span className="text-sm text-gray-600">Purchase date: Not set</span>
+                  )}
+                  {item.purchasePrice !== undefined ? (
+                    <span className="text-lg font-bold text-red-600">${item.purchasePrice.toFixed(2)}</span>
+                  ) : (
+                    <span className="text-lg font-bold text-red-600">Price: Not set</span>
+                  )}
                 </div>
                 <div className="flex items-center justify-between">
-                <span className={`text-sm px-2 py-1 rounded ${
-  item.condition === 'new' ? 'bg-green-100 text-green-800' :
-  item.condition === 'used' ? 'bg-yellow-100 text-yellow-800' :
-  item.condition === 'damaged' ? 'bg-red-100 text-red-800' :
-  'bg-gray-100 text-gray-600'
-}`}>
-  {item.condition
-    ? item.condition.charAt(0).toUpperCase() + item.condition.slice(1)
-    : 'Unknown'}
-</span>
+                  <span className={`text-sm px-2 py-1 rounded ${
+                    item.condition === 'new' ? 'bg-green-100 text-green-800' :
+                    item.condition === 'used' ? 'bg-yellow-100 text-yellow-800' :
+                    item.condition === 'damaged' ? 'bg-red-100 text-red-800' :
+                    'bg-gray-100 text-gray-600'
+                  }`}>
+                    {item.condition ? item.condition.charAt(0).toUpperCase() + item.condition.slice(1) : 'in hand'}
+                  </span>
 
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => {/* Handle edit */}}
+                      onClick={() => { 
+                        setAddingItemId(item.id); 
+                        setShowAddModal(true); 
+                      }}
                       className="p-2 text-gray-600 hover:text-gray-800 transition-colors"
                     >
                       <Edit className="w-5 h-5" />
@@ -191,7 +233,50 @@ const Collection: React.FC = () => {
             </button>
           </div>
         )}
-        {showAddModal && <AddModal onClose={() => setShowAddModal(false)} />}
+
+        {/* Modal for Add Item */}
+        {showAddModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h2 className="text-xl font-bold mb-4">Add New Item</h2>
+              <div className="mb-4">
+                <label htmlFor="purchasePrice" className="block text-sm font-medium text-gray-700">Enter Purchase Price</label>
+                <input
+                  type="number"
+                  id="purchasePrice"
+                  value={newPrice}
+                  onChange={(e) => setNewPrice(e.target.value)}
+                  className="mt-1 p-2 w-full border rounded-md"
+                  step="0.01"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="purchaseDate" className="block text-sm font-medium text-gray-700">Enter Purchase Date</label>
+                <input
+                  type="date"
+                  id="purchaseDate"
+                  value={purchaseDate}
+                  onChange={(e) => setPurchaseDate(e.target.value)}
+                  className="mt-1 p-2 w-full border rounded-md"
+                />
+              </div>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleAddItem(addingItemId!)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

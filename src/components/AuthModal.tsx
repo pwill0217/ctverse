@@ -1,12 +1,15 @@
 import React from 'react';
 import { X } from 'lucide-react';
 import { auth } from '../firebase';
+import mockProducts from '../pages/Catalog'; // Adjust the path as needed
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
-interface AuthModalProps {
+type AuthModalProps = {
   isOpen: boolean;
+  catalog: typeof mockProducts;
   onClose: () => void;
-}
+  onAdd: (newItem: { id: string; name: string; price: number }) => void;
+};
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;

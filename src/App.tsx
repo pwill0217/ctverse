@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { BookMarked, GiftIcon, ShoppingCart, Trophy, ListPlus, Sparkles, LogOut, LogIn } from 'lucide-react';
 import Catalog from './pages/Catalog';
 import Collection from './pages/Collection';
+import AboutPage from './components/AboutPage'; // Import the AboutPage component
 import AuthModal from './components/AuthModal';
 import { useAuth } from './hooks/useAuth';
 import { auth } from './firebase';
 
 function App() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [currentPage, setCurrentPage] = useState<'home' | 'catalog' | 'collection'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'catalog' | 'collection' | 'about'>('home'); // Add 'about' to the page options
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { user } = useAuth();
 
@@ -36,119 +37,134 @@ function App() {
     return <Collection />;
   }
 
+  if (currentPage === 'about') {
+    return <AboutPage />; // Render the AboutPage when the currentPage is 'about'
+  }
+
   return (
-    <div className="min-h-screen relative bg-black">
-      {/* Background Image Slider */}
-      <div className="fixed inset-0 z-0">
-        {backgroundImages.map((image, index) => (
-          <div
-            key={image}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentImageIndex ? 'opacity-40' : 'opacity-0'
-            }`}
-            style={{
-              backgroundImage: `url(${image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black"></div>
-      </div>
+  <div className="min-h-screen relative bg-black">
+    {/* Alert Banner */}
+    <div className="bg-yellow-500 text-black text-center py-2 px-4 font-semibold">
+      Prices may vary due to ongoing tariffs.
+    </div>
 
-      {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-gradient-to-b from-black/80 to-transparent">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Trophy className="w-8 h-8 text-red-600" />
-              <span className="text-2xl font-bold text-white">CTVerse</span>
-            </div>
-            <div className="hidden md:flex space-x-8">
-              <button 
-                onClick={() => setCurrentPage('home')} 
-                className="text-white hover:text-red-600 transition"
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => setCurrentPage('catalog')} 
-                className="text-white hover:text-red-600 transition"
-              >
-                Catalog
-              </button>
-              {user ? (
-                <button 
-                  onClick={() => setCurrentPage('collection')} 
-                  className="text-white hover:text-red-600 transition"
-                >
-                  My Collection
-                </button>
-              ) : (
-                <button 
-                  onClick={() => setShowAuthModal(true)} 
-                  className="text-white hover:text-red-600 transition flex items-center space-x-2"
-                >
-                  <LogIn className="w-5 h-5" />
-                  <span>Sign In</span>
-                </button>
-              )}
-            </div>
-            <div className="flex items-center space-x-4">
-              <button className="bg-red-600 text-white px-6 py-2 rounded font-semibold hover:bg-red-700 transition flex items-center space-x-2">
-                <a
-                  href="https://www.aliexpress.com/store/1102778419"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2"
-                >
-                  <ShoppingCart className="w-5 h-5" />
-                  <span>Shop at the Official CT Toys store</span>
-                </a>
-              </button>
-              {user && (
-                <button
-                  onClick={() => auth.signOut()}
-                  className="text-white hover:text-red-600 transition flex items-center space-x-2"
-                >
-                  <LogOut className="w-5 h-5" />
-                  <span>Sign Out</span>
-                </button>
-              )}
-            </div>
+    {/* Background Image Slider */}
+    <div className="fixed inset-0 z-0">
+      {backgroundImages.map((image, index) => (
+        <div
+          key={image}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            index === currentImageIndex ? 'opacity-40' : 'opacity-0'
+          }`}
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+      ))}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black"></div>
+    </div>
+
+    {/* Navigation */}
+    <nav className="fixed w-full z-50 bg-gradient-to-b from-black/80 to-transparent">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Trophy className="w-8 h-8 text-red-600" />
+            <span className="text-2xl font-bold text-white">CTVerse</span>
           </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <div className="relative z-10 pt-32 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              Your Ultimate <span className="text-red-600">CT Toys</span> Companion
-            </h1>
-            <p className="text-xl text-gray-300 mb-8">
-              Track, collect, and discover import figures action figures at a cheaper price. Never miss a release and showcase your collection to the world.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+          <div className="hidden md:flex space-x-8">
+            <button 
+              onClick={() => setCurrentPage('home')} 
+              className="text-white hover:text-red-600 transition"
+            >
+              Home
+            </button>
+            <button 
+              onClick={() => setCurrentPage('catalog')} 
+              className="text-white hover:text-red-600 transition"
+            >
+              Catalog
+            </button>
+            <button 
+              onClick={() => setCurrentPage('about')} 
+              className="text-white hover:text-red-600 transition"
+            >
+              About
+            </button>
+            {user ? (
               <button 
-                onClick={() => setCurrentPage('catalog')}
-                className="bg-red-600 text-white px-8 py-4 rounded font-semibold hover:bg-red-700 transition flex items-center justify-center space-x-2"
+                onClick={() => setCurrentPage('collection')} 
+                className="text-white hover:text-red-600 transition"
               >
-                <Sparkles className="w-5 h-5" />
-                <span>Explore New Releases</span>
+                My Collection
               </button>
+            ) : (
               <button 
-                onClick={() => user ? setCurrentPage('collection') : setShowAuthModal(true)}
-                className="bg-white/10 text-white px-8 py-4 rounded font-semibold hover:bg-white/20 transition backdrop-blur-sm flex items-center justify-center space-x-2"
+                onClick={() => setShowAuthModal(true)} 
+                className="text-white hover:text-red-600 transition flex items-center space-x-2"
               >
-                <ListPlus className="w-5 h-5" />
-                <span>Start Your Collection</span>
+                <LogIn className="w-5 h-5" />
+                <span>Sign In</span>
               </button>
-            </div>
+            )}
+          </div>
+          <div className="flex items-center space-x-4">
+            <button className="bg-red-600 text-white px-6 py-2 rounded font-semibold hover:bg-red-700 transition flex items-center space-x-2">
+              <a
+                href="https://www.aliexpress.com/store/1102778419"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                <span>Shop at the Official CT Toys store</span>
+              </a>
+            </button>
+            {user && (
+              <button
+                onClick={() => auth.signOut()}
+                className="text-white hover:text-red-600 transition flex items-center space-x-2"
+              >
+                <LogOut className="w-5 h-5" />
+                <span>Sign Out</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
+    </nav>
+
+    {/* Hero Section */}
+    <div className="relative z-10 pt-32 pb-16">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+            Your Ultimate <span className="text-red-600">CT Toys</span> Companion
+          </h1>
+          <p className="text-xl text-gray-300 mb-8">
+            Track, collect, and discover import figures action figures at a cheaper price. Never miss a release and showcase your collection to the world.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button 
+              onClick={() => setCurrentPage('catalog')}
+              className="bg-red-600 text-white px-8 py-4 rounded font-semibold hover:bg-red-700 transition flex items-center justify-center space-x-2"
+            >
+              <Sparkles className="w-5 h-5" />
+              <span>Explore New Releases</span>
+            </button>
+            <button 
+              onClick={() => user ? setCurrentPage('collection') : setShowAuthModal(true)}
+              className="bg-white/10 text-white px-8 py-4 rounded font-semibold hover:bg-white/20 transition backdrop-blur-sm flex items-center justify-center space-x-2"
+            >
+              <ListPlus className="w-5 h-5" />
+              <span>Start Your Collection</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
       {/* Features Section */}
       <div className="relative z-10 py-16">

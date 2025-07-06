@@ -248,6 +248,15 @@ const mockProducts: Product[] = [
     price: 29.84, // Price not available
     aliExpressUrl: 'https://www.aliexpress.us/item/3256808901384053.html?spm=a2g0o.productlist.main.8.16947f844C4zca&algo_pvid=df6a2bef-fa07-4076-8168-e057cc48e8b6&algo_exp_id=df6a2bef-fa07-4076-8168-e057cc48e8b6-7&pdp_ext_f=%7B%22order%22%3A%2213%22%2C%22eval%22%3A%221%22%7D&pdp_npi=4%40dis%21USD%2136.34%2136.34%21%21%21258.99%21258.99%21%402103205217518273610212531ed309%2112000047863277732%21sea%21US%211793174653%21X&curPageLogUid=DVPefFYZalHz&utparam-url=scene%3Asearch%7Cquery_from%3A',
   },
+  {
+    id: '22',
+    name: 'CT Toys Scarlet Spider',
+    image: 'https://imgs.search.brave.com/OKEyYeOkO_OV7TbIF42zNAkuDQjXTQpUU3-P2pa2Zxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL0d1TUFB/T1N3OHFwbkxJUlAv/cy1sNTAwLmpwZw',
+    releaseYear: 2025,
+    rating: 4.8,
+    price: 28.38,
+    aliExpressUrl: 'https://www.aliexpress.us/item/3256809019696929.html?gps-id=pcStoreNewArrivals&scm=1007.23409.271287.0&scm_id=1007.23409.271287.0&scm-url=1007.23409.271287.0&pvid=0c848723-99af-4956-ba33-ad23e8970638&_t=gps-id%3ApcStoreNewArrivals%2Cscm-url%3A1007.23409.271287.0%2Cpvid%3A0c848723-99af-4956-ba33-ad23e8970638%2Ctpp_buckets%3A668%232846%238115%232000&pdp_ext_f=%7B%22order%22%3A%2231%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2213409%22%7D&pdp_npi=4%40dis%21USD%2163.09%2128.38%21%21%21449.67%21202.28%21%402103244617518376012988647e6b3a%2112000048374131934%21rec%21US%21%21ABX&spm=a2g0o.store_pc_home.smartNewArrivals_2005299976220.1005009206011681&gatewayAdapt=glo2usa'
+  },
 ];
 
 

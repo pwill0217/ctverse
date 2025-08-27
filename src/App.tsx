@@ -6,8 +6,10 @@ import AboutPage from './components/AboutPage'; // Import the AboutPage componen
 import AuthModal from './components/AuthModal';
 import { useAuth } from './hooks/useAuth';
 import { auth } from './firebase';
+import Koficomponent from './components/Koficomponent';
 
 function App() {
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState<'home' | 'catalog' | 'collection' | 'about'>('home'); // Add 'about' to the page options
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -40,8 +42,9 @@ function App() {
   if (currentPage === 'about') {
     return <AboutPage />; // Render the AboutPage when the currentPage is 'about'
   }
-
+  
   return (
+    
   <div className="min-h-screen relative bg-black">
     {/* Alert Banner */}
     <div className="bg-yellow-500 text-black text-center py-2 px-4 font-semibold">
@@ -64,6 +67,7 @@ function App() {
         />
       ))}
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black"></div>
+      <Koficomponent />
     </div>
 
     {/* Navigation */}
@@ -93,6 +97,7 @@ function App() {
             >
               About
             </button>
+            
             {user ? (
               <button 
                 onClick={() => setCurrentPage('collection')} 
